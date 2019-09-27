@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+    <title>Node Authentication</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+   
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+   
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+   <style>
+
+        img         {width: 60vw; height: auto; float: left;}
+        form       {width: 60vw; height: auto; float: left;}
+
+
+        ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+
+        }
+
+        li {
+        float: left;
+        }
+
+        li form {
+        display: block;
+
+        padding: 14px 16px;
+        text-decoration: none;
+        }
+
+        li a {
+        display: block;
+
+        padding: 14px 16px;
+        text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+
+        
+
+        <% if (message.length > 0 &&(  message == 'Welcome to picture center!')) { %>
+            <div class="alert alert-success"><%= message %></div>
+        <% } %>
+    
+
+<div class="container">
+
+    <div class="page-header text-center">
+      
+       <ul>
+           <li>
+        <a href="/profile" class="btn btn-default btn-sm">Back to Profile</a>
+         </li>
+        
+        <% if(index != -1) { %>
+        <ul>
+            <li>
+        <form action="/profile/showPhotos/lastImg" method="GET">
+            <button type="submit" class="btn btn-warning btn-lg">previous photo</button>
+        </form>
+             </li>
+             <li>
+        <form action="/profile/showPhotos/nextImg" method="GET">
+            <button type="submit" class="btn btn-warning btn-lg">next photo</button>
+        </form>
+             </li>
+        <li></li>
+        <li>
+        <form action="/profile/showPhotos/stergeImg" method="GET">
+            <button type="submit" class="btn btn-warning btn-lg">sterge photo</button>
+        </form>
+        </li>
+        
+        <hr>
+
+        <% } %>
+    </ul>
+    </div>
+    <% if(index == -1) { %>
+        <p> Nema Imagini :(</p>
+    <%  } %>
+    <% if(index != -1) { %>
+
+        <hr>
+        <% if(like) { %>
+        <form action="/profile/showPhotos/disLike" method="GET">
+            <button type="submit" class="btn btn-warning btn-lg">DisLike</button>
+        </form>
+        <% }else { %>
+
+        <form action="/profile/showPhotos/like" method="GET">
+             <button type="submit" class="btn btn-warning btn-lg">Like</button>
+        </form>
+
+        <br>
+        
+
+        <% } %>
+        <h2>Nr.likes: <%= nrLikes%></h2>
+        <hr>
+
+    <img src= <%= "/img_DB/" +  qryIMG[index].image_url %> alt=<%= index + ":is-----" + "|src:"+"../img_DB/" +  qryIMG[index].image_url %> height="420" width="420"/>
+   
+
+    
+
+    <hr>  
+    <form action="/profile/showPhotos/comment" method="post">
+        <div class="form-group">
+            <label><%=user.username + ' photo'%></label>
+            <input type="text" class="form-control" name="comments">
+        </div>
+
+        <button type="submit" class="btn btn-warning btn-lg">Comment motherfucker</button>
+        <br>
+
+    </form>
+
+
+
+    <% if(nrComments > 0) { %>
+        <div  style="overflow-y:scroll; width:60vw ;height:40vh; background:#009999">
+       <% for(let i = 0 ; i < nrComments; i += 1) { %>
+            <h5>Usr: <%= comments[i].username%></h5>
+            <p><%=comments[i].comment_text%></p> 
+            <hr>
+            <br>
+        <% } %>
+       </div>
+    <% } else { %>
+        <h2>Inca n ai comente :(</h2>
+    <% }  %>
+
+</div>
+<br/>
+
+    <% } %>
+
+<script
+src="https://code.jquery.com/jquery-3.2.1.min.js"
+integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>  
+</body>
+</html>
+
+
+<!--+ qryIMG[index].image_url-->
